@@ -29,6 +29,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.hibernate.ogm.hiking.model.Hike;
+import org.hibernate.ogm.hiking.model.Section;
 import org.hibernate.ogm.hiking.repository.HikeRepository;
 import org.hibernate.ogm.hiking.rest.model.HikeDescription;
 
@@ -84,7 +85,13 @@ public class HikeResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public HikeDescription createHike(HikeDescription hike) {
-		hikeRepository.saveHike( new Hike( hike.getFrom(), hike.getTo() ) );
+		Hike hike2 = new Hike( hike.getFrom(), hike.getTo() );
+
+		for(Section section : hike.getSections() ) {
+			hike2.getSections().add( section );
+		}
+
+		hikeRepository.saveHike( hike2 );
 		return hike;
 	}
 }

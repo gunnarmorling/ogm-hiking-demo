@@ -36,10 +36,16 @@ angular
                     return Restangular.all('hikes').getList();
                 }
             },
-            create: function(hike) {
+            create: function(hike, sections) {
                 var hikeDesc = hike;
                 hikeDesc.from = hike.from;
                 hikeDesc.to = hike.to;
+                hikeDesc.sections = [];
+
+                var arrayLength = sections.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    hikeDesc.sections.push({ from: sections[i].from, to: sections[i].to });
+                }
 
                 return Restangular.all('hikes').post(hikeDesc);
             }
@@ -59,8 +65,10 @@ angular
     })
 
     .controller('DetailCtrl', function($scope,  $location, HikeFactory) {
+        $scope.sections = [];
+
         $scope.save = function() {
-            HikeFactory.create($scope.hike).then(function (hike) {
+            HikeFactory.create($scope.hike, $scope.sections).then(function (hike, sections) {
                 $location.path('/');
             });
         };

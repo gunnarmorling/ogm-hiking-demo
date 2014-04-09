@@ -31,7 +31,7 @@ public class HikeDescription {
 	private String from;
 	private String to;
 	private String organizerName;
-	private List<String> sections = new ArrayList<>();
+	private List<Section> sections = new ArrayList<>();
 
 	public HikeDescription() {
 	}
@@ -43,7 +43,7 @@ public class HikeDescription {
 
 		for ( Section section : hike.getSections() ) {
 			if ( section != null ) {
-				sections.add( section.getFrom() + " - " + section.getTo() );
+				sections.add( section );
 			}
 		}
 	}
@@ -72,11 +72,11 @@ public class HikeDescription {
 		this.organizerName = organizerName;
 	}
 
-	public List<String> getSections() {
+	public List<Section> getSections() {
 		return sections;
 	}
 
-	public void setSections(List<String> sections) {
+	public void setSections(List<Section> sections) {
 		this.sections = sections;
 	}
 
