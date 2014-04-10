@@ -20,51 +20,19 @@
  */
 package org.hibernate.ogm.hiking.repository;
 
-import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.hibernate.ogm.hiking.model.Hike;
 import org.hibernate.ogm.hiking.model.Person;
 
 @ApplicationScoped
-public class HikeRepository {
+public class PersonRepository {
 
 	@PersistenceContext(unitName="hike-PU-JTA")
 	private EntityManager entityManager;
 
-	public Hike createHike(Hike hike, Person organizer) {
-		entityManager.persist( hike );
-
-		hike.setOrganizer( organizer );
-		organizer.getOrganizedHikes().add( hike );
-
-		return hike;
-	}
-
-	public Hike getHikeById(long hikeId) {
-		return entityManager.find( Hike.class, hikeId );
-	}
-
-	public List<Hike> getAllHikes() {
-		return entityManager.createQuery( "from Hike", Hike.class ).getResultList();
-	}
-
-	public List<Person> getAllPersons() {
-		return entityManager.createQuery( "from Person", Person.class ).getResultList();
-	}
-
-	public List<Hike> getHikesByFromOrTo(String term) {
-		System.out.println("getHikesByFromOrTo" + term);
-		return entityManager.createQuery( "FROM Hike WHERE start LIKE :term or destination LIKE :term", Hike.class )
-				.setParameter( "term", "%" + term + "%" )
-				.getResultList();
-	}
-
-	public Hike saveHike(Hike hike) {
-		entityManager.persist( hike );
-		return hike;
+	public Person getPersonById(long personId) {
+		return entityManager.find( Person.class, personId );
 	}
 }

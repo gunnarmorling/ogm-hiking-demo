@@ -61,14 +61,14 @@ public class HikeRepositoryIT {
 
 	@Test
 	public void hikeRepositoryShouldPersistHikeAndOrganizer() {
-		Hike hike = hikeRepository.saveHikeAndOrganizer( new Hike( "Land's End", "Bristol" ), new Person( "Bob" ) );
+		Hike hike = hikeRepository.createHike( new Hike( "Land's End", "Bristol" ), new Person( "Bob" ) );
 		assertEquals( "Bob", hike.getOrganizer().getName() );
 	}
 
 	@Test
 	public void hikeRepositoryShouldReturnAllHikes() {
-		hikeRepository.saveHikeAndOrganizer( new Hike( "Land's End", "Bristol" ), new Person( "Bob" ) );
-		hikeRepository.saveHikeAndOrganizer( new Hike( "Land's End", "London" ), new Person( "Bill" ) );
+		hikeRepository.createHike( new Hike( "Land's End", "Bristol" ), new Person( "Bob" ) );
+		hikeRepository.createHike( new Hike( "Land's End", "London" ), new Person( "Bill" ) );
 
 		List<Hike> allHikes = hikeRepository.getAllHikes();
 		assertThat( allHikes ).hasSize( 2 );

@@ -25,7 +25,7 @@ angular
             });
     })
 
-    .factory('HikeFactory', ['Restangular', function(Restangular) {
+    .factory('PersistenceService', ['Restangular', function(Restangular) {
         return {
             getHikes: function(searchTerm) {
                 if(searchTerm) {
@@ -36,7 +36,10 @@ angular
                     return Restangular.all('hikes').getList();
                 }
             },
-            create: function(hike, sections) {
+            getPersons: function() {
+                return Restangular.all('persons').getList();
+            },
+            createHike: function(hike, sections, organizer) {
                 var hikeDesc = hike;
                 hikeDesc.from = hike.from;
                 hikeDesc.to = hike.to;
@@ -47,16 +50,20 @@ angular
                     hikeDesc.sections.push({ from: sections[i].from, to: sections[i].to });
                 }
 
+                if ( organizer ) {
+                    hikeDesc.organizer = { id: organizer.id };
+                }
+
                 return Restangular.all('hikes').post(hikeDesc);
             }
         }
     }])
 
-    .controller('HikesCtrl', function($scope, HikeFactory) {
+    .controller('HikesCtrl', function($scope, PersistenceService) {
         $scope.hikes;
 
         $scope.getHikes = function() {
-            HikeFactory.getHikes($scope.searchTerm).then(function (hikes) {
+            PersistenceService.getHikes($scope.searchTerm).then(function (hikes) {
                 $scope.hikes = hikes;
             });
         };
@@ -64,11 +71,15 @@ angular
         $scope.getHikes();
     })
 
-    .controller('DetailCtrl', function($scope,  $location, HikeFactory) {
+    .controller('DetailCtrl', function($scope,  $location, PersistenceService) {
+        PersistenceService.getPersons().then(function (persons) {
+            $scope.persons = persons;
+        });
+
         $scope.sections = [];
 
         $scope.save = function() {
-            HikeFactory.create($scope.hike, $scope.sections).then(function (hike, sections) {
+            PersistenceService.createHike($scope.hike, $scope.sections, $scope.selectedOrganizer).then(function (hike, sections) {
                 $location.path('/');
             });
         };

@@ -26,20 +26,20 @@ import java.util.List;
 import org.hibernate.ogm.hiking.model.Hike;
 import org.hibernate.ogm.hiking.model.Section;
 
-public class HikeDescription {
+public class ExternalHike {
 
 	private String from;
 	private String to;
-	private String organizerName;
+	private ExternalPerson organizer;
 	private List<Section> sections = new ArrayList<>();
 
-	public HikeDescription() {
+	public ExternalHike() {
 	}
 
-	public HikeDescription(Hike hike) {
+	public ExternalHike(Hike hike) {
 		this.from = hike.getStart();
 		this.to = hike.getDestination();
-		this.organizerName = hike.getOrganizer() != null ? hike.getOrganizer().getName() : null;
+		this.organizer = hike.getOrganizer() != null ? new ExternalPerson( hike.getOrganizer() ) : null;
 
 		for ( Section section : hike.getSections() ) {
 			if ( section != null ) {
@@ -64,12 +64,12 @@ public class HikeDescription {
 		this.to = to;
 	}
 
-	public String getOrganizerName() {
-		return organizerName;
+	public ExternalPerson getOrganizer() {
+		return organizer;
 	}
 
-	public void setOrganizerName(String organizerName) {
-		this.organizerName = organizerName;
+	public void setOrganizer(ExternalPerson organizer) {
+		this.organizer = organizer;
 	}
 
 	public List<Section> getSections() {
@@ -82,6 +82,6 @@ public class HikeDescription {
 
 	@Override
 	public String toString() {
-		return "HikeDescription [from=" + from + ", to=" + to + ", organizerName=" + organizerName + ", sections=" + sections + "]";
+		return "HikeDescription [from=" + from + ", to=" + to + ", organizer=" + organizer + ", sections=" + sections + "]";
 	}
 }

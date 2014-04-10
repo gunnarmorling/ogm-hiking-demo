@@ -19,7 +19,7 @@
         <tr ng-repeat="hike in hikes | filter:search">
             <td>{{hike.from}}</td>
             <td>{{hike.to}}</td>
-            <td>{{hike.organizerName}}</td>
+            <td>{{hike.organizer.name}}</td>
         </tr>
     </tbody>
 </table>

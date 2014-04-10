@@ -29,9 +29,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import org.hibernate.ogm.hiking.model.Hike;
+import org.hibernate.ogm.hiking.model.Person;
 import org.hibernate.ogm.hiking.model.Section;
 import org.hibernate.ogm.hiking.repository.HikeRepository;
-import org.hibernate.ogm.hiking.rest.model.HikeDescription;
+import org.hibernate.ogm.hiking.repository.PersonRepository;
+import org.hibernate.ogm.hiking.rest.model.ExternalHike;
 
 @Path("/hikes")
 //@ApplicationScoped
@@ -42,14 +44,17 @@ public class HikeResource {
 	@Inject
 	private HikeRepository hikeRepository;
 
+	@Inject
+	private PersonRepository personRepository;
+
 	public HikeResource() {
 	}
 
 	@GET
 	@Path("/{id}")
 	@Produces("application/json")
-	public HikeDescription getHikeById(@PathParam("id") long hikeId) {
-		return new HikeDescription( hikeRepository.getHikeById( hikeId ) );
+	public ExternalHike getHikeById(@PathParam("id") long hikeId) {
+		return new ExternalHike( hikeRepository.getHikeById( hikeId ) );
 	}
 
 //	@GET
@@ -69,12 +74,12 @@ public class HikeResource {
 	@GET
 	@Path("/")
 	@Produces("application/json")
-	public List<HikeDescription> findHikes(@QueryParam("q") String searchTerm) {
+	public List<ExternalHike> findHikes(@QueryParam("q") String searchTerm) {
 		List<Hike> hikes = searchTerm != null ? hikeRepository.getHikesByFromOrTo(searchTerm) : hikeRepository.getAllHikes();
-		List<HikeDescription> descriptions = new ArrayList<>( hikes.size() );
+		List<ExternalHike> descriptions = new ArrayList<>( hikes.size() );
 
 		for ( Hike hike : hikes ) {
-			descriptions.add( new HikeDescription( hike ) );
+			descriptions.add( new ExternalHike( hike ) );
 		}
 
 		return descriptions;
@@ -84,14 +89,20 @@ public class HikeResource {
 	@Path("/")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public HikeDescription createHike(HikeDescription hike) {
-		Hike hike2 = new Hike( hike.getFrom(), hike.getTo() );
+	public ExternalHike createHike(ExternalHike externalHike) {
+		Hike hike = new Hike( externalHike.getFrom(), externalHike.getTo() );
+		Person organizer = null;
 
-		for(Section section : hike.getSections() ) {
-			hike2.getSections().add( section );
+		if ( externalHike.getOrganizer() != null ) {
+			organizer = personRepository.getPersonById( externalHike.getOrganizer().getId() );
 		}
 
-		hikeRepository.saveHike( hike2 );
-		return hike;
+		for(Section section : externalHike.getSections() ) {
+			hike.getSections().add( section );
+		}
+
+		hikeRepository.createHike( hike, organizer );
+
+		return externalHike;
 	}
 }
