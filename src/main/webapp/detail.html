@@ -34,7 +34,7 @@
 
   <!-- Sections -->
   <div class="form-group">
-    <label class="col-sm-2 control-label">Sections<br/>(<a href ng-click="hike.sections.push({})">Add</a>)</label>
+    <label class="col-sm-2 control-label">Sections</label>
     <div class="col-md-6">
       <div ng-repeat="section in hike.sections">
         <div class="form-group row">
@@ -50,6 +50,9 @@
             <button class="btn btn-default" ng-click="hike.sections.splice($index, 1)">Remove</button>
           </div>
         </div>
+      </div>
+      <div style="padding-top:6px">
+        <a href ng-click="hike.sections.push({})">Add...</a>
       </div>
     </div>
   </div>

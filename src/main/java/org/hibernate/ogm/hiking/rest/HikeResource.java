@@ -29,6 +29,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -92,6 +93,44 @@ public class HikeResource {
 		}
 
 		hikeRepository.createHike( hike, organizer );
+
+		return externalHike;
+	}
+
+	@PUT
+	@Path("/{id}")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public ExternalHike updateHike(ExternalHike externalHike) {
+//		Hike hike = new Hike( externalHike.getFrom(), externalHike.getTo() );
+//		hike.setId( externalHike.getId() );
+//
+//		Person organizer = null;
+//
+//		if ( externalHike.getOrganizer() != null ) {
+//			organizer = personRepository.getPersonById( externalHike.getOrganizer().getId() );
+//		}
+//
+//		for(Section section : externalHike.getSections() ) {
+//			hike.getSections().add( section );
+//		}
+//
+//		System.out.println("Updating hike: " + hike);
+//		hikeRepository.updateHike( hike, organizer );
+
+		Hike hike = hikeRepository.getHikeById( externalHike.getId() );
+
+		hike.setStart( externalHike.getFrom() );
+		hike.setDestination( externalHike.getTo() );
+
+		if ( externalHike.getOrganizer() != null ) {
+			Person organizer = personRepository.getPersonById( externalHike.getOrganizer().getId() );
+			hike.setOrganizer( organizer );
+			organizer.getOrganizedHikes().add( hike );
+		}
+
+		hike.getSections().clear();
+		hike.getSections().addAll( externalHike.getSections() );
 
 		return externalHike;
 	}

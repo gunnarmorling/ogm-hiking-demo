@@ -23,7 +23,7 @@
             <td>{{hike.to}}</td>
             <td><span ng-repeat="section in hike.sections">{{section.from}} - {{section.to}}{{$last ? '' : ', '}}</span></td>
             <td>{{hike.organizer.name}}</td>
-            <td><a href ng-click="remove(hike)">Remove</a></td>
+            <td><a href="#/edit/{{hike.id}}">Update</a> | <a href ng-click="remove(hike)">Remove</a></td>
         </tr>
     </tbody>
 </table>

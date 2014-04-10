@@ -16,6 +16,10 @@ angular
                 controller:'DetailCtrl',
                 templateUrl:'detail.html'
             })
+            .when('/edit/:hikeId', {
+                controller:'EditCtrl',
+                templateUrl:'detail.html'
+            })
             .otherwise({
                 redirectTo:'/'
             });
@@ -34,11 +38,17 @@ angular
                     return hikesResource.getList();
                 }
             },
+            getHike: function(hike) {
+                return Restangular.one('hikes', hike).get();
+            },
             getPersons: function() {
                 return personsResource.getList();
             },
             createHike: function(hike) {
                 return hikesResource.post(hike);
+            },
+            updateHike: function(hike) {
+                return hike.put();
             },
             deleteHike: function(hike) {
                 return Restangular.one('hikes', hike.id).remove();
@@ -71,6 +81,28 @@ angular
 
         $scope.save = function() {
             PersistenceService.createHike($scope.hike).then(function (hike) {
+                $location.path('/');
+            });
+        };
+
+        $scope.cancel = function() {
+            $location.path('/');
+        };
+    })
+
+    .controller('EditCtrl', function($scope,  $location, $routeParams, PersistenceService) {
+        $scope.hike;
+
+        PersistenceService.getPersons().then(function (persons) {
+            $scope.persons = persons;
+        });
+
+        PersistenceService.getHike($routeParams.hikeId).then(function (hike) {
+            $scope.hike = hike;
+        });
+
+        $scope.save = function() {
+            PersistenceService.updateHike($scope.hike).then(function (hike) {
                 $location.path('/');
             });
         };
