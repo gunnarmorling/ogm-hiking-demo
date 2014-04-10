@@ -54,10 +54,6 @@ public class HikeRepository {
 		return entityManager.createQuery( "from Hike", Hike.class ).getResultList();
 	}
 
-	public List<Person> getAllPersons() {
-		return entityManager.createQuery( "from Person", Person.class ).getResultList();
-	}
-
 	public List<Hike> getHikesByFromOrTo(String term) {
 		System.out.println("getHikesByFromOrTo" + term);
 		return entityManager.createQuery( "FROM Hike WHERE start LIKE :term or destination LIKE :term", Hike.class )
