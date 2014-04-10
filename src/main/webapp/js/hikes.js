@@ -12,10 +12,6 @@ angular
                 controller:'HikesCtrl',
                 templateUrl:'list.html'
             })
-            .when('/edit/:projectId', {
-                controller:'HikesCtrl',
-                templateUrl:'detail.html'
-            })
             .when('/new', {
                 controller:'DetailCtrl',
                 templateUrl:'detail.html'
@@ -55,6 +51,9 @@ angular
                 }
 
                 return Restangular.all('hikes').post(hikeDesc);
+            },
+            deleteHike: function(hike) {
+                return Restangular.one('hikes', hike.id).remove();
             }
         }
     }])
@@ -65,6 +64,12 @@ angular
         $scope.getHikes = function() {
             PersistenceService.getHikes($scope.searchTerm).then(function (hikes) {
                 $scope.hikes = hikes;
+            });
+        };
+
+        $scope.remove = function(hike) {
+            PersistenceService.deleteHike(hike).then(function (hike) {
+                $scope.getHikes();
             });
         };
 

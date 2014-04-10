@@ -28,6 +28,7 @@ import org.hibernate.ogm.hiking.model.Section;
 
 public class ExternalHike {
 
+	private long id;
 	private String from;
 	private String to;
 	private ExternalPerson organizer;
@@ -37,6 +38,7 @@ public class ExternalHike {
 	}
 
 	public ExternalHike(Hike hike) {
+		this.id = hike.getId();
 		this.from = hike.getStart();
 		this.to = hike.getDestination();
 		this.organizer = hike.getOrganizer() != null ? new ExternalPerson( hike.getOrganizer() ) : null;
@@ -46,6 +48,14 @@ public class ExternalHike {
 				sections.add( section );
 			}
 		}
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getFrom() {
@@ -82,6 +92,6 @@ public class ExternalHike {
 
 	@Override
 	public String toString() {
-		return "HikeDescription [from=" + from + ", to=" + to + ", organizer=" + organizer + ", sections=" + sections + "]";
+		return "ExternalHike [id=" + id + ", from=" + from + ", to=" + to + ", organizer=" + organizer + ", sections=" + sections + "]";
 	}
 }

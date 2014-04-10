@@ -13,6 +13,7 @@
             <th>From</th>
             <th>To</th>
             <th>Organizer</th>
+            <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@
             <td>{{hike.from}}</td>
             <td>{{hike.to}}</td>
             <td>{{hike.organizer.name}}</td>
+            <td><a href ng-click="remove(hike)">Remove</a></td>
         </tr>
     </tbody>
 </table>

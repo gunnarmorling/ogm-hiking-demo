@@ -55,7 +55,6 @@ public class HikeRepository {
 	}
 
 	public List<Hike> getHikesByFromOrTo(String term) {
-		System.out.println("getHikesByFromOrTo" + term);
 		return entityManager.createQuery( "FROM Hike WHERE start LIKE :term or destination LIKE :term", Hike.class )
 				.setParameter( "term", "%" + term + "%" )
 				.getResultList();
@@ -64,5 +63,16 @@ public class HikeRepository {
 	public Hike saveHike(Hike hike) {
 		entityManager.persist( hike );
 		return hike;
+	}
+
+	public void deleteHike(long hikeId) {
+		Hike hike = entityManager.find( Hike.class, hikeId );
+
+		if ( hike != null ) {
+			if ( hike.getOrganizer() != null ) {
+				hike.getOrganizer().getOrganizedHikes().remove( hike );
+			}
+			entityManager.remove( hike );
+		}
 	}
 }
