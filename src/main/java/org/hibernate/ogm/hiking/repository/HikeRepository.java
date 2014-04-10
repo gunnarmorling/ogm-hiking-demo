@@ -38,8 +38,10 @@ public class HikeRepository {
 	public Hike createHike(Hike hike, Person organizer) {
 		entityManager.persist( hike );
 
-		hike.setOrganizer( organizer );
-		organizer.getOrganizedHikes().add( hike );
+		if ( organizer != null ) {
+			hike.setOrganizer( organizer );
+			organizer.getOrganizedHikes().add( hike );
+		}
 
 		return hike;
 	}
