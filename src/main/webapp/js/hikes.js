@@ -22,35 +22,23 @@ angular
     })
 
     .factory('PersistenceService', ['Restangular', function(Restangular) {
+        var hikesResource = Restangular.all('hikes');
+        var personsResource = Restangular.all('persons');
+
         return {
             getHikes: function(searchTerm) {
                 if(searchTerm) {
-                    var queryParamObj = { q: searchTerm };
-                    return Restangular.all('hikes').getList(queryParamObj);
+                    return hikesResource.getList({ q: searchTerm });
                 }
                 else {
-                    return Restangular.all('hikes').getList();
+                    return hikesResource.getList();
                 }
             },
             getPersons: function() {
-                return Restangular.all('persons').getList();
+                return personsResource.getList();
             },
-            createHike: function(hike, sections, organizer) {
-                var hikeDesc = hike;
-                hikeDesc.from = hike.from;
-                hikeDesc.to = hike.to;
-                hikeDesc.sections = [];
-
-                var arrayLength = sections.length;
-                for (var i = 0; i < arrayLength; i++) {
-                    hikeDesc.sections.push({ from: sections[i].from, to: sections[i].to });
-                }
-
-                if ( organizer ) {
-                    hikeDesc.organizer = { id: organizer.id };
-                }
-
-                return Restangular.all('hikes').post(hikeDesc);
+            createHike: function(hike) {
+                return hikesResource.post(hike);
             },
             deleteHike: function(hike) {
                 return Restangular.one('hikes', hike.id).remove();
@@ -59,8 +47,6 @@ angular
     }])
 
     .controller('HikesCtrl', function($scope, PersistenceService) {
-        $scope.hikes;
-
         $scope.getHikes = function() {
             PersistenceService.getHikes($scope.searchTerm).then(function (hikes) {
                 $scope.hikes = hikes;
@@ -81,13 +67,14 @@ angular
             $scope.persons = persons;
         });
 
-        $scope.sections = [];
+        $scope.hike = { sections: [] };
 
         $scope.save = function() {
-            PersistenceService.createHike($scope.hike, $scope.sections, $scope.selectedOrganizer).then(function (hike, sections) {
+            PersistenceService.createHike($scope.hike).then(function (hike) {
                 $location.path('/');
             });
         };
+
         $scope.cancel = function() {
             $location.path('/');
         };
