@@ -10,11 +10,16 @@ import org.hibernate.ogm.hiking.model.Hike;
 import org.hibernate.ogm.hiking.model.Person;
 import org.hibernate.ogm.hiking.model.Section;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class HikeTest {
 
 	private EntityManager entityManager;
+
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
 
 	@Before
 	public void setupEntityManager() {
@@ -87,6 +92,8 @@ public class HikeTest {
 
 	@Test
 	public void validationTest() {
+		exception.expect( Exception.class );
+
 		entityManager.getTransaction().begin();
 
 		Person bob = new Person( "B" );
@@ -94,5 +101,6 @@ public class HikeTest {
 		entityManager.persist( bob );
 
 		entityManager.getTransaction().commit();
+
 	}
 }
