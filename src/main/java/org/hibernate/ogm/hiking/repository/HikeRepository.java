@@ -26,17 +26,6 @@ public class HikeRepository {
 		return hike;
 	}
 
-//	public Hike updateHike(Hike hike, Person organizer) {
-//		entityManager.merge( hike );
-//
-//		if ( organizer != null ) {
-//			hike.setOrganizer( organizer );
-//			organizer.getOrganizedHikes().add( hike );
-//		}
-//
-//		return hike;
-//	}
-
 	public Hike getHikeById(long hikeId) {
 		return entityManager.find( Hike.class, hikeId );
 	}
