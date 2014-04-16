@@ -1,23 +1,3 @@
-/*
- * Hibernate, Relational Persistence for Idiomatic Java
- *
- * JBoss, Home of Professional Open Source
- * Copyright 2014 Red Hat Inc. and/or its affiliates and other contributors
- * as indicated by the @authors tag. All rights reserved.
- * See the copyright.txt in the distribution for a
- * full listing of individual contributors.
- *
- * This copyrighted material is made available to anyone wishing to use,
- * modify, copy, or redistribute it subject to the terms and conditions
- * of the GNU Lesser General Public License, v. 2.1.
- * This program is distributed in the hope that it will be useful, but WITHOUT A
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
- * PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
- * You should have received a copy of the GNU Lesser General Public License,
- * v.2.1 along with this distribution; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA  02110-1301, USA.
- */
 package org.hibernate.ogm.hiking.rest.model;
 
 import java.util.ArrayList;
@@ -38,12 +18,12 @@ public class ExternalHike {
 	}
 
 	public ExternalHike(Hike hike) {
-		this.id = hike.getId();
-		this.from = hike.getStart();
-		this.to = hike.getDestination();
-		this.organizer = hike.getOrganizer() != null ? new ExternalPerson( hike.getOrganizer() ) : null;
+		this.id = hike.id;
+		this.from = hike.start;
+		this.to = hike.destination;
+		this.organizer = hike.organizer != null ? new ExternalPerson( hike.organizer ) : null;
 
-		for ( Section section : hike.getSections() ) {
+		for ( Section section : hike.sections ) {
 			if ( section != null ) {
 				sections.add( section );
 			}
