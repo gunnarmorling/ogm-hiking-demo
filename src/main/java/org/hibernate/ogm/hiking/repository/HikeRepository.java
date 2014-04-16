@@ -19,6 +19,10 @@ public class HikeRepository {
 		entityManager.persist( hike );
 
 		if ( organizer != null ) {
+			if ( !entityManager.contains( organizer ) ) {
+				entityManager.persist( organizer );
+			}
+
 			hike.organizer = organizer;
 			organizer.organizedHikes.add( hike );
 		}
