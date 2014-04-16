@@ -46,6 +46,6 @@ public class PersonResource {
 	public long createPerson(ExternalPerson externalPerson) {
 		Person person = new Person( externalPerson.getName() );
 		person = personRepository.createPerson( person );
-		return person.getId();
+		return person.id;
 	}
 }

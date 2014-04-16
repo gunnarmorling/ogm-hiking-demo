@@ -32,10 +32,10 @@ public class HikeTest {
 		entityManager.getTransaction().commit();
 
 		entityManager.getTransaction().begin();
-		hike = entityManager.find( Hike.class, hike.getId() );
+		hike = entityManager.find( Hike.class, hike.id );
 
 		assertThat( hike ).isNotNull();
-		assertThat( hike.getDestination() ).isEqualTo( "Bristol" );
+		assertThat( hike.destination ).isEqualTo( "Bristol" );
 
 		entityManager.getTransaction().commit();
 	}
@@ -45,18 +45,18 @@ public class HikeTest {
 		entityManager.getTransaction().begin();
 
 		Hike hike = new Hike( "Land's End", "Bristol" );
-		hike.getSections().add( new Section( "Land's End", "Pendeen" ) );
-		hike.getSections().add( new Section( "Pendeen", "Perranporth" ) );
+		hike.sections.add( new Section( "Land's End", "Pendeen" ) );
+		hike.sections.add( new Section( "Pendeen", "Perranporth" ) );
 		entityManager.persist( hike );
 
 		entityManager.getTransaction().commit();
 
 		entityManager.getTransaction().begin();
-		hike = entityManager.find( Hike.class, hike.getId() );
+		hike = entityManager.find( Hike.class, hike.id );
 
-		assertThat( hike.getSections() ).hasSize( 2 );
-		assertThat( hike.getSections().get( 0 ).getFrom() ).isEqualTo( "Land's End" );
-		assertThat( hike.getSections().get( 1 ).getFrom() ).isEqualTo( "Pendeen" );
+		assertThat( hike.sections ).hasSize( 2 );
+		assertThat( hike.sections.get( 0 ).from ).isEqualTo( "Land's End" );
+		assertThat( hike.sections.get( 1 ).from ).isEqualTo( "Pendeen" );
 
 		entityManager.getTransaction().commit();
 	}
@@ -68,8 +68,8 @@ public class HikeTest {
 		Hike hike = new Hike( "Land's End", "Bristol" );
 		Person bob = new Person( "Bob" );
 
-		hike.setOrganizer( bob );
-		bob.getOrganizedHikes().add( hike );
+		hike.organizer = bob;
+		bob.organizedHikes.add( hike );
 
 		entityManager.persist( hike );
 		entityManager.persist( bob );
@@ -77,10 +77,10 @@ public class HikeTest {
 		entityManager.getTransaction().commit();
 
 		entityManager.getTransaction().begin();
-		hike = entityManager.find( Hike.class, hike.getId() );
+		hike = entityManager.find( Hike.class, hike.id );
 
-		assertThat( hike.getOrganizer() ).isNotNull();
-		assertThat( hike.getOrganizer().getName() ).isEqualTo( "Bob" );
+		assertThat( hike.organizer ).isNotNull();
+		assertThat( hike.organizer.name ).isEqualTo( "Bob" );
 
 		entityManager.getTransaction().commit();
 	}

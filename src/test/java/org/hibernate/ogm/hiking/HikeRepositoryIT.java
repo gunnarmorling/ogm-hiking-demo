@@ -42,7 +42,7 @@ public class HikeRepositoryIT {
 	@Test
 	public void hikeRepositoryShouldPersistHikeAndOrganizer() {
 		Hike hike = hikeRepository.createHike( new Hike( "Land's End", "Bristol" ), new Person( "Bob" ) );
-		assertEquals( "Bob", hike.getOrganizer().getName() );
+		assertEquals( "Bob", hike.organizer.name );
 	}
 
 	@Test

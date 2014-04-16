@@ -68,8 +68,8 @@ public class HikeResource {
 			organizer = personRepository.getPersonById( externalHike.getOrganizer().getId() );
 		}
 
-		for(Section section : externalHike.getSections() ) {
-			hike.getSections().add( section );
+		for (Section section : externalHike.getSections() ) {
+			hike.sections.add( section );
 		}
 
 		hikeRepository.createHike( hike, organizer );
@@ -82,35 +82,20 @@ public class HikeResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public ExternalHike updateHike(ExternalHike externalHike) {
-//		Hike hike = new Hike( externalHike.getFrom(), externalHike.getTo() );
-//		hike.setId( externalHike.getId() );
-//
-//		Person organizer = null;
-//
-//		if ( externalHike.getOrganizer() != null ) {
-//			organizer = personRepository.getPersonById( externalHike.getOrganizer().getId() );
-//		}
-//
-//		for(Section section : externalHike.getSections() ) {
-//			hike.getSections().add( section );
-//		}
-//
-//		System.out.println("Updating hike: " + hike);
-//		hikeRepository.updateHike( hike, organizer );
 
 		Hike hike = hikeRepository.getHikeById( externalHike.getId() );
 
-		hike.setStart( externalHike.getFrom() );
-		hike.setDestination( externalHike.getTo() );
+		hike.start = externalHike.getFrom();
+		hike.destination = externalHike.getTo();
 
 		if ( externalHike.getOrganizer() != null ) {
 			Person organizer = personRepository.getPersonById( externalHike.getOrganizer().getId() );
-			hike.setOrganizer( organizer );
-			organizer.getOrganizedHikes().add( hike );
+			hike.organizer = organizer;
+			organizer.organizedHikes.add( hike );
 		}
 
-		hike.getSections().clear();
-		hike.getSections().addAll( externalHike.getSections() );
+		hike.sections.clear();
+		hike.sections.addAll( externalHike.getSections() );
 
 		return externalHike;
 	}

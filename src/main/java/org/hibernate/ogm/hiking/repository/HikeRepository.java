@@ -19,8 +19,8 @@ public class HikeRepository {
 		entityManager.persist( hike );
 
 		if ( organizer != null ) {
-			hike.setOrganizer( organizer );
-			organizer.getOrganizedHikes().add( hike );
+			hike.organizer = organizer;
+			organizer.organizedHikes.add( hike );
 		}
 
 		return hike;
@@ -49,8 +49,8 @@ public class HikeRepository {
 		Hike hike = entityManager.find( Hike.class, hikeId );
 
 		if ( hike != null ) {
-			if ( hike.getOrganizer() != null ) {
-				hike.getOrganizer().getOrganizedHikes().remove( hike );
+			if ( hike.organizer != null ) {
+				hike.organizer.organizedHikes.remove( hike );
 			}
 			entityManager.remove( hike );
 		}

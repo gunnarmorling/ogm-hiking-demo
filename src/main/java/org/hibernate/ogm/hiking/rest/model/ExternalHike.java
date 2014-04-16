@@ -18,12 +18,12 @@ public class ExternalHike {
 	}
 
 	public ExternalHike(Hike hike) {
-		this.id = hike.getId();
-		this.from = hike.getStart();
-		this.to = hike.getDestination();
-		this.organizer = hike.getOrganizer() != null ? new ExternalPerson( hike.getOrganizer() ) : null;
+		this.id = hike.id;
+		this.from = hike.start;
+		this.to = hike.destination;
+		this.organizer = hike.organizer != null ? new ExternalPerson( hike.organizer ) : null;
 
-		for ( Section section : hike.getSections() ) {
+		for ( Section section : hike.sections ) {
 			if ( section != null ) {
 				sections.add( section );
 			}

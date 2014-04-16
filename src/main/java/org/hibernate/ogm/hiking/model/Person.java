@@ -13,9 +13,15 @@ import javax.validation.constraints.Size;
 @Entity
 public class Person {
 
-	private long id;
-	private String name;
-	private Set<Hike> organizedHikes = new HashSet<>();
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	public long id;
+
+	@Size(min=3)
+	public String name;
+
+	@OneToMany
+	public Set<Hike> organizedHikes = new HashSet<>();
 
 	Person() {
 	}
@@ -24,36 +30,4 @@ public class Person {
 		this.name = name;
 	}
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	@Size(min=3)
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@OneToMany
-	public Set<Hike> getOrganizedHikes() {
-		return organizedHikes;
-	}
-
-	public void setOrganizedHikes(Set<Hike> organizedHikes) {
-		this.organizedHikes = organizedHikes;
-	}
-
-	@Override
-	public String toString() {
-		return "Hike [id=" + id + ", name=" + name + "]";
-	}
 }

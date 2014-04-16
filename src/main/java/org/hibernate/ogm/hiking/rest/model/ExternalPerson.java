@@ -11,8 +11,8 @@ public class ExternalPerson {
 	}
 
 	public ExternalPerson(Person person) {
-		this.id = person.getId();
-		this.name = person.getName();
+		this.id = person.id;
+		this.name = person.name;
 	}
 
 	public long getId() {
