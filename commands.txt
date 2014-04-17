@@ -1,4 +1,10 @@
 rhc app deploy master --app ogmfinal
+
+Lokal:
+curl -X POST -d '{"name":"Melissa"}' -H "Accept: application/json" -H "Content-type: application/json" http://localhost:8080/ogm-hiking-demo-1.0/hiking-manager/persons
+
+OpenShift
 curl -X POST -d '{"name":"Melissa"}' -H "Accept: application/json" -H "Content-type: application/json" http://ogmfinal-atwork.rhcloud.com/hiking-manager/persons
+
 jboss-eap-6.2/bin/standalone.sh
 mvn jboss-as:deploy -DskipTests=true

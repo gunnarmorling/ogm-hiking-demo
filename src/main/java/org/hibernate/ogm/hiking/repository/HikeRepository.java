@@ -35,13 +35,14 @@ public class HikeRepository {
 	}
 
 	public List<Hike> getAllHikes() {
-		return entityManager.createQuery( "from Hike", Hike.class ).getResultList();
+		return entityManager.createQuery( "FROM Hike", Hike.class ).getResultList();
 	}
 
 	public List<Hike> getHikesByFromOrTo(String term) {
-		return entityManager.createQuery( "FROM Hike WHERE start LIKE :term or destination LIKE :term", Hike.class )
-				.setParameter( "term", "%" + term + "%" )
-				.getResultList();
+		return entityManager
+			.createQuery( "FROM Hike WHERE start LIKE :term or destination LIKE :term", Hike.class )
+			.setParameter( "term", "%" + term + "%" )
+			.getResultList();
 	}
 
 	public Hike saveHike(Hike hike) {
